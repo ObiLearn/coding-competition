@@ -22,4 +22,6 @@ endif()
 find_package(Boost REQUIRED)
 
 add_subdirectory(libobi)
+
+add_subdirectory(003)
 add_subdirectory(015)
