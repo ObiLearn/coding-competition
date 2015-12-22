@@ -7,7 +7,8 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libobi/CMakeLib")
 option(LIBOBI_EXAMPLES ON)
 
 ## set os specific flags
-include(compiler-warnings)
+include(obi_compiler_warnings)
+include(obi_util)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${stone-warnings}")
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR
    CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
@@ -20,8 +21,9 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR
 endif()
 
 find_package(Boost REQUIRED)
-
 add_subdirectory(libobi)
 
-add_subdirectory(003)
-add_subdirectory(015)
+foreach(sdir RANGE 1 15)
+    prefix("${sdir}" "3" "0" sdir)
+    add_subdirectory_checked("${CMAKE_CURRENT_SOURCE_DIR}/${sdir}" TRUE)
+endforeach(sdir)
