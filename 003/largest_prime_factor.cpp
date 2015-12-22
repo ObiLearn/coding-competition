@@ -1,5 +1,6 @@
 #include <iostream>
 #include <obi/math/basic_functions.hpp>
+#include <obi/util/show.hpp>
 #include <boost/multiprecision/cpp_int.hpp>
 
 int main(int argc, const char *argv[]) {
@@ -8,11 +9,9 @@ int main(int argc, const char *argv[]) {
     //bmp::uint1024_t n = 13ULL;
     auto result = obi::math::prime_factors_naive(n,true);
 
-    std::cout << result.back() << std::endl;
-
-    for(auto& i : result){
-        std::cout << i << ", ";
-    }
+    using namespace obi::util;
+    std::cout  << "factorization " << result << std::endl
+               << "result: " << result.back() << std::endl;
 
     std::cout << std::endl;
     return 0;
