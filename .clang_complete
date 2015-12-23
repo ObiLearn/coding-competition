@@ -1,0 +1,4 @@
+-Dlinux
+-D__linux__
+-Ilibobi/src/include
+-std=c++1z
