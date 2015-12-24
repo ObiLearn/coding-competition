@@ -1,0 +1,4 @@
+project(euler_004)
+add_executable(largest_palindrome_product largest_palindrome_product.cpp)
+target_include_directories(largest_palindrome_product PRIVATE ${Boost_INCLUDE_DIRS})
+target_link_libraries(largest_palindrome_product libobi ${BOOST_LIBRARIES})
