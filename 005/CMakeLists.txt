@@ -1,0 +1,5 @@
+project(euler_005)
+set(tname "smallest_multiple")
+add_executable(${tname} ${tname}.cpp)
+target_include_directories(${tname} PRIVATE ${Boost_INCLUDE_DIRS})
+target_link_libraries(${tname} libobi ${BOOST_LIBRARIES})
