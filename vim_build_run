@@ -1,0 +1,12 @@
+#!/bin/bash
+
+number="$1"
+name="$2"
+shift 2
+
+executable="$number/$name"
+cpp="${executable}.cpp"
+
+vim -p "$cpp" "$@" && \
+./build || ./build --gcc-6 -g -v -c && \
+../euler-build/"$executable"
