@@ -2,6 +2,7 @@
 #include <cmath>
 #include <boost/multiprecision/cpp_int.hpp>
 #include <obi/math/basic_functions.hpp>
+#include <obi/math/primes.hpp>
 #include <obi/util/show.hpp>
 #include <obi/algorithm.hpp>
 
