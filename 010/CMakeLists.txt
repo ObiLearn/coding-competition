@@ -1,0 +1,5 @@
+project(euler_010)
+set(tname "summation_of_primes")
+add_executable(${tname} ${tname}.cpp)
+target_include_directories(${tname} PRIVATE ${Boost_INCLUDE_DIRS})
+target_link_libraries(${tname} libobi ${BOOST_LIBRARIES})
