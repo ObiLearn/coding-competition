@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.0.0)
 project(euler)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libobi/CMakeLib")
 include(obi_fm_util)
-obi_settings()
+obi_setup()
 
 find_package(Boost REQUIRED)
 add_subdirectory(libobi)
