@@ -49,7 +49,24 @@ int main(int argc, const char *argv[]) {
         }
     }
     timer.add_step("solution found");
+
     std::cout << "result: " << backup << " = " << max << " at " << std::distance(number_string.begin(), max_pos)<< std::endl;
+    timer.add_step("result printed");
+
+    // https://projecteuler.net/thread=8;page=9
+    auto bignum = number_string;
+    #define DIGITS 13
+    #define CHAR_TO_INT(x) ((x)=='0'?1:(x)-'0')
+    long long int maxProd = 1,currProd = 1, dq = 0;
+    for(int i=0, j=i-DIGITS; bignum[i]; ++i, ++j) {
+        currProd /= CHAR_TO_INT( j>=0 ? bignum[j] : '1' );
+        currProd *= CHAR_TO_INT( bignum[i] );
+        if ( (dq = (bignum[i]=='0')?DIGITS:(dq-1)) <= 0 &&
+             currProd > maxProd)
+            maxProd = currProd;
+    }
+    timer.add_step("second solution found - by tlutz0808");
+    printf("Max product: %lld\n",maxProd);
 
     return 0;
 }
