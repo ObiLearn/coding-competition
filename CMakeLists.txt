@@ -9,7 +9,7 @@ obi_setup()
 find_package(Boost REQUIRED)
 add_subdirectory(libobi)
 
-foreach(sdir RANGE 1 15)
+foreach(sdir RANGE 1 999)
     obi_prefix("${sdir}" "3" "0" sdir)
     obi_add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/${sdir}" TRUE)
 endforeach(sdir)
