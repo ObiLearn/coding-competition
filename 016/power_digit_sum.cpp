@@ -4,11 +4,6 @@
 #include <boost/multiprecision/cpp_int.hpp>
 #include <obi/util/scoped_timer.hpp>
 
-std::size_t char_to_int(const auto& c) {
-    return *c - '0';
-}
-
-
 int main(int argc, const char *argv[]) {
     namespace bmp = boost::multiprecision;
 
@@ -20,8 +15,6 @@ int main(int argc, const char *argv[]) {
         rest = num % bmp::uint1024_t(10);
         num /= bmp::uint1024_t(10);
         sum += rest;
-
-
     }
     sum += num;
 
