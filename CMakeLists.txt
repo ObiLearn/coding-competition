@@ -6,6 +6,7 @@ project(euler)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/external_libs/libobi/cmake")
 include(obi_fm_util)
 obi_setup()
+
 add_subdirectory(external_libs/libobi)
 add_subdirectory(external_libs/googletest/googletest/)
 find_package(Boost REQUIRED)
@@ -13,6 +14,7 @@ find_package(Boost REQUIRED)
 set(test_files
     003-largest_prime_factor
     004-largest_palindrome_product
+    005-smallest_multiple
 )
 
 foreach(test_name IN LISTS test_files) # <- DO NOT EXPAND LIST

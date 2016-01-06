@@ -1,6 +1,5 @@
 #include <iostream>
 #include <obi/math/basic_functions.hpp>
-#include <boost/multiprecision/cpp_int.hpp>
 
 template <typename T>
 void num_out(T x, T base = T(10)) {
@@ -26,15 +25,11 @@ auto euler_004(bool in_main = false){
 
 #ifndef OBI_RUN_MAIN
 #include <gtest/gtest.h>
-TEST(e004_largest_palindrome_product, 3_digit_numbers){
+TEST(e004r_largest_palindrome_product, result){
     EXPECT_EQ(euler_004(),906609);
 }
-
 #else
 int main(int argc, const char *argv[]) {
-    namespace bmp = boost::multiprecision;
-    //bmp::uint1024_t x = 600851475143ULL;
-    //bmp::uint1024_t n = 13ULL;
     num_out(1234);
     num_out(123321);
     num_out(1234321);
