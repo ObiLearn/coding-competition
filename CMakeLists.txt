@@ -12,6 +12,7 @@ find_package(Boost REQUIRED)
 
 set(test_files
     003-largest_prime_factor
+    004-largest_palindrome_product
 )
 
 foreach(test_name IN LISTS test_files) # <- DO NOT EXPAND LIST
