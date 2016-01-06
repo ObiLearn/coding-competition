@@ -1,9 +1,6 @@
 #!/bin/bash
 # Copyright - 2015 - Jan Christoph Uhde <Jan@UhdeJC.com>
 
-[[ -e libobi ]] || git clone https://github.com/ObiWahn/libobi.git
-
-
 project_root="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 build_dir="${project_root}-build"
 

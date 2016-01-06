@@ -1,5 +1,5 @@
-libobi
 in_progress
+external_libs/*
 
 *.hi
 *.o
