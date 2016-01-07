@@ -7,11 +7,11 @@
 #include <obi/util/show.hpp>
 #include <obi/util/scoped_timer.hpp>
 
-std::size_t char_to_int(const auto& c) {
+static inline std::size_t char_to_int(const auto& c) {
     return *c - '0';
 }
 
-template<typename T, std::size_t N> //enable_if N > 2
+template<typename T, std::size_t N> inline//enable_if N > 2
 T prod_num(T num,std::array<T,N>& array){
     T result = num;
     for(std::size_t i = 0; i < N-1; i++){
@@ -22,14 +22,14 @@ T prod_num(T num,std::array<T,N>& array){
     return result;
 }
 
-int main(int argc, const char *argv[]) {
-
-
+std::size_t euler_0008(bool debug = false) {
     obi::util::scoped_timer timer;
-    auto stream = std::ifstream("number");
-    //std::string s(std::istreambuf_iterator<char>(stream), {})
-    auto number_string = obi::util::stream_to_string(stream, true);
-    timer.add_step("file read");
+    auto stream = std::ifstream("008-number");
+    auto number_string = obi::util::ifstream_to_string(stream, true);
+
+    if(debug) {
+        timer.add_step("file read");
+    }
 
     std::array<std::size_t,13> numbers{}; //value initialization
     auto backup = numbers;
@@ -45,13 +45,15 @@ int main(int argc, const char *argv[]) {
             max = prod;
             max_pos = it;
             backup = numbers;
-            //std::cout << numbers << std::endl;
         }
     }
-    timer.add_step("solution found");
 
-    std::cout << "result: " << backup << " = " << max << " at " << std::distance(number_string.begin(), max_pos)<< std::endl;
-    timer.add_step("result printed");
+    if(debug) {
+        timer.add_step("solution found");
+
+        std::cout << "result: " << backup << " = " << max << " at " << std::distance(number_string.begin(), max_pos)<< std::endl;
+        timer.add_step("result printed");
+    }
 
     // https://projecteuler.net/thread=8;page=9
     auto bignum = number_string;
@@ -65,8 +67,24 @@ int main(int argc, const char *argv[]) {
              currProd > maxProd)
             maxProd = currProd;
     }
-    timer.add_step("second solution found - by tlutz0808");
-    printf("Max product: %lld\n",maxProd);
+    if(debug) {
+        timer.add_step("second solution found - by tlutz0808");
+        printf("Max product: %lld\n",maxProd);
+    } else {
+        timer.disable();
+    }
 
+    return max;
+}
+
+#ifndef OBI_RUN_MAIN
+#include <gtest/gtest.h>
+TEST(solution, 0008_largest_product_in_a_series){
+    EXPECT_EQ(euler_0008(), 23514624000);
+}
+#else
+int main(int argc, const char *argv[]) {
+    euler_0008(true)
     return 0;
 }
+#endif
