@@ -6,7 +6,7 @@
 #include <obi/util/show.hpp>
 #include <obi/algorithm.hpp>
 
-auto euler_005(bool in_main = false){
+auto euler_0005(bool in_main = false){
     using obi::util::operator<<;
     namespace bmp = boost::multiprecision;
     std::vector<std::vector<int>> rv;
@@ -33,12 +33,12 @@ auto euler_005(bool in_main = false){
 
 #ifndef OBI_RUN_MAIN
 #include <gtest/gtest.h>
-TEST(e005r_smallest_multiple, result){
-    EXPECT_EQ(euler_005(),232792560);
+TEST(solution, 0005_smallest_multiple){
+    EXPECT_EQ(euler_0005(),232792560);
 }
 #else
 int main(int argc, const char *argv[]) {
-    euler_005(true)
+    euler_0005(true)
     return 0;
 }
 #endif

@@ -6,7 +6,7 @@ void num_out(T x, T base = T(10)) {
     std::cout << std::boolalpha << x << ": " << obi::math::is_palindrome_number(x,base) << std::endl;
 }
 
-auto euler_004(bool in_main = false){
+auto euler_0004(bool in_main = false){
     unsigned int biggest = 0;
 
     for(unsigned int i = 999; i >= 100; i--){
@@ -25,8 +25,8 @@ auto euler_004(bool in_main = false){
 
 #ifndef OBI_RUN_MAIN
 #include <gtest/gtest.h>
-TEST(e004r_largest_palindrome_product, result){
-    EXPECT_EQ(euler_004(),906609);
+TEST(solution, 0004_largest_palindrome_product){
+    EXPECT_EQ(euler_0004(),906609);
 }
 #else
 int main(int argc, const char *argv[]) {
@@ -35,7 +35,7 @@ int main(int argc, const char *argv[]) {
     num_out(1234321);
     num_out(110011);
 
-    euler_004(true);
+    euler_0004(true);
 
     return 0;
 }

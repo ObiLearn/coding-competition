@@ -3,7 +3,7 @@
 #include <obi/util/show.hpp>
 #include <boost/multiprecision/cpp_int.hpp>
 
-auto euler_003(){
+auto euler_0003(){
     namespace bmp = boost::multiprecision;
     bmp::uint1024_t n = 600851475143ULL;
     auto result = obi::math::prime_factors_naive(n,true);
@@ -12,8 +12,8 @@ auto euler_003(){
 
 #ifndef OBI_RUN_MAIN
 #include <gtest/gtest.h>
-TEST(e003r_largest_prime_factor, result){
-    EXPECT_EQ(euler_003().back(),6857);
+TEST(solution, 0003_largest_prime_factor){
+    EXPECT_EQ(euler_0003().back(),6857);
 }
 
 #else
