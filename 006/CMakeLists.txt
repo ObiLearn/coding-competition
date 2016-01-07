@@ -1,5 +1,0 @@
-project(euler_006)
-set(tname "sum_square_difference")
-add_executable(${tname} ${tname}.cpp)
-target_include_directories(${tname} PRIVATE ${Boost_INCLUDE_DIRS})
-target_link_libraries(${tname} libobi ${BOOST_LIBRARIES})

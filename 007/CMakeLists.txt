@@ -1,5 +1,0 @@
-project(euler_007)
-set(tname "10001st_prime")
-add_executable(${tname} ${tname}.cpp)
-target_include_directories(${tname} PRIVATE ${Boost_INCLUDE_DIRS})
-target_link_libraries(${tname} libobi ${BOOST_LIBRARIES})
