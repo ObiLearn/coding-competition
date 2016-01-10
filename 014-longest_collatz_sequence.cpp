@@ -42,15 +42,18 @@ auto collatz(T num, std::vector<T>& vec) {
     return std::make_pair(num, vec[num]);
 }
 
-int main(/*int argc, const char *argv[]*/) {
+Num euler_0014(bool debug = false) {
     obi::util::scoped_timer timer;
 
     Num max_num = 1000001;
-    //max_num = 14;
     auto collatz_vec = std::vector<Num>(max_num, Num(0));
     collatz_vec[0] = Num(1);
     collatz_vec[1] = Num(1);
-    timer.add_step("vars defined");
+    if (debug) {
+        timer.add_step("vars defined");
+    } else {
+        timer.disable();
+    }
 
     for(Num i = 2ul; i < max_num; i++){
         collatz(i, collatz_vec);
@@ -61,9 +64,23 @@ int main(/*int argc, const char *argv[]*/) {
     //    std::cout << i << "\t: " << collatz_vec[i] << std::endl;
     //}
 
-    timer.add_step("solution found");
-    std::cout << "result: " << result << std::endl;
-    timer.add_step("result printed");
+    if (debug) {
+        timer.add_step("solution found");
+        std::cout << "result: " << result << std::endl;
+        timer.add_step("result printed");
+    }
 
+    return result;
+}
+
+#ifndef OBI_RUN_MAIN
+#include <gtest/gtest.h>
+TEST(solution, 0014_longest_collatz_sequence){
+    EXPECT_EQ(euler_0014(), 837799);
+}
+#else
+int main(int argc, const char *argv[]) {
+    euler_0014(true)
     return 0;
 }
+#endif
