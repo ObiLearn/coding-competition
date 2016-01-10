@@ -24,7 +24,7 @@ T prod_num(T num,std::array<T,N>& array){
 
 std::size_t euler_0008(bool debug = false) {
     obi::util::scoped_timer timer;
-    auto stream = std::ifstream("008-number");
+    std::ifstream stream("008-number");
     auto number_string = obi::util::ifstream_to_string(stream, true);
 
     if(debug) {
@@ -84,7 +84,7 @@ TEST(solution, 0008_largest_product_in_a_series){
 }
 #else
 int main(int argc, const char *argv[]) {
-    euler_0008(true)
+    euler_0008(true);
     return 0;
 }
 #endif

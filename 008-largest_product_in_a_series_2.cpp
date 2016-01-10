@@ -19,7 +19,7 @@ static std::size_t char_to_int(char c) {
 std::size_t euler_008_faster(bool debug = false) {
 
     obi::util::scoped_timer timer;
-    auto stream = std::ifstream("008-number");
+    std::ifstream stream("008-number");
     auto number_string = obi::util::ifstream_to_string(stream, true);
     if(debug){
         timer.add_step("file read");
@@ -72,7 +72,7 @@ TEST(solution, 0008_largest_product_in_a_series_faster){
 }
 #else
 int main(int argc, const char *argv[]) {
-    euler_008_faster(true)
+    euler_008_faster(true);
     return 0;
 }
 #endif

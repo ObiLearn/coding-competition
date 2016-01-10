@@ -15,7 +15,7 @@ bmp::uint1024_t euler_0013(bool debug = false) {
 
     bmp::uint1024_t sum = 0;
     obi::util::scoped_timer timer;
-    auto stream = std::ifstream("013-number");
+    std::ifstream stream("013-number");
     if(! stream.is_open()){
         throw std::logic_error("stream not open");
     }
@@ -44,7 +44,7 @@ TEST(solution, 0013_large_sum){
 }
 #else
 int main(int argc, const char *argv[]) {
-    euler_0013(true)
+    euler_0013(true);
     return 0;
 }
 #endif

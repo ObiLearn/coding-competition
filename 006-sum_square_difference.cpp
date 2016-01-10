@@ -51,7 +51,7 @@ TEST(solution, 0006_sum_square_difference){
 }
 #else
 int main(int argc, const char *argv[]) {
-    euler_0006(true)
+    euler_0006(true);
     return 0;
 }
 #endif

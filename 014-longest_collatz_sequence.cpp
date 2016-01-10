@@ -80,7 +80,7 @@ TEST(solution, 0014_longest_collatz_sequence){
 }
 #else
 int main(int argc, const char *argv[]) {
-    euler_0014(true)
+    euler_0014(true);
     return 0;
 }
 #endif

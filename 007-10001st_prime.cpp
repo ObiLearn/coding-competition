@@ -32,7 +32,7 @@ TEST(solution, 0007_10001st_prime){
 }
 #else
 int main(int argc, const char *argv[]) {
-    euler_007(true)
+    euler_007(true);
     return 0;
 }
 #endif

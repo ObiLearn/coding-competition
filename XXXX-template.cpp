@@ -24,7 +24,7 @@ TEST(solution, XXXX_TEMPLATE){
 }
 #else
 int main(/*int argc, const char *argv[]*/) {
-    euler_XXXX(true)
+    euler_XXXX(true);
     return 0;
 }
 #endif

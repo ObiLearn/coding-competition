@@ -34,7 +34,7 @@ TEST(solution, 0015_large_sum){
 }
 #else
 int main(int argc, const char *argv[]) {
-    euler_0015(true)
+    euler_0015(true);
     return 0;
 }
 #endif

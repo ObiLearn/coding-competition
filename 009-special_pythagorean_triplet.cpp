@@ -35,7 +35,7 @@ TEST(solution, 0009_special_pythagorean_triplet){
 }
 #else
 int main(int argc, const char *argv[]) {
-    euler_0009(true)
+    euler_0009(true);
     return 0;
 }
 #endif

@@ -20,7 +20,7 @@ TEST(solution, 0003_largest_prime_factor){
 int main(int argc, const char *argv[]) {
 
     using namespace obi::util;
-    auto result = run_euler();
+    auto result = euler_0003();
     std::cout  << "factorization " << result << std::endl
                << "result: " << result.back() << std::endl;
 

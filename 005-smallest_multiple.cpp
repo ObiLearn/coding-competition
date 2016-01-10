@@ -38,7 +38,7 @@ TEST(solution, 0005_smallest_multiple){
 }
 #else
 int main(int argc, const char *argv[]) {
-    euler_0005(true)
+    euler_0005(true);
     return 0;
 }
 #endif
