@@ -30,7 +30,6 @@ set(test_files
     016-power_digit_sum
 
     XXXX-template
-
 )
 
 file(COPY
@@ -49,6 +48,7 @@ set(test_target "project_euler")
 set(test_main  "gtest.cpp")
 add_executable("${test_target}" ${test_main} ${test_files_cpp})
 target_include_directories("${test_target}" PRIVATE ${gtest_SOURCE_DIR}/include ${Boost_INCLUDE_DIRS})
-target_link_libraries("${test_target}" libobi gtest_main gtest ${BOOST_LIBRARIES})
-#add_test("${test_target}_run" "${test_target}")
+target_link_libraries("${test_target}" obi gtest_main gtest ${BOOST_LIBRARIES})
 
+separate_arguments(obi_stone-warnings)
+target_compile_options(${test_target} PRIVATE $<$<CONFIG:Debug>:${obi_stone-warnings}>)
