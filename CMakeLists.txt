@@ -1,6 +1,6 @@
 # Copyright - 2016 - Jan Christoph Uhde <Jan@UhdeJC.com>
 
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.3.0)
 project(euler)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/external_libs/libobi/cmake")
@@ -40,15 +40,20 @@ file(COPY
     "${CMAKE_CURRENT_BINARY_DIR}"
 )
 
+separate_arguments(obi_stone-warnings)
 foreach(test_name IN LISTS test_files) # <- DO NOT EXPAND LIST
     list(APPEND test_files_cpp "${test_name}.cpp")
+    #build single executables
+    add_executable(${test_name} "${test_name}.cpp")
+    target_include_directories(${test_name} PRIVATE ${gtest_SOURCE_DIR}/include ${Boost_INCLUDE_DIRS})
+    target_link_libraries(${test_name} obi ${BOOST_LIBRARIES})
+    target_compile_options(${test_name} PRIVATE $<$<CONFIG:Debug>:${obi_stone-warnings}>)
+    target_compile_definitions(${test_name} PRIVATE -DOBI_RUN_MAIN)
 endforeach()
 
 set(test_target "project_euler")
 set(test_main  "gtest.cpp")
-add_executable("${test_target}" ${test_main} ${test_files_cpp})
-target_include_directories("${test_target}" PRIVATE ${gtest_SOURCE_DIR}/include ${Boost_INCLUDE_DIRS})
-target_link_libraries("${test_target}" obi gtest_main gtest ${BOOST_LIBRARIES})
-
-separate_arguments(obi_stone-warnings)
+add_executable(${test_target} ${test_main} ${test_files_cpp})
+target_include_directories(${test_target} PRIVATE ${gtest_SOURCE_DIR}/include ${Boost_INCLUDE_DIRS})
+target_link_libraries(${test_target} obi gtest_main gtest ${BOOST_LIBRARIES})
 target_compile_options(${test_target} PRIVATE $<$<CONFIG:Debug>:${obi_stone-warnings}>)
