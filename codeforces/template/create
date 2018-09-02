@@ -1,0 +1,16 @@
+#!/bin/bash
+
+num="$1"
+round="round$1"
+directory="../$round"
+
+mkdir "$directory" || exit 1
+
+for letter in "A" "B" "C" "D" "E"; do
+    cp "problemA.cpp" "${directory}/problem${letter}.cpp" || exit 1
+    cp "problemA.py"  "${directory}/problem${letter}.py" || exit 1
+    for i in {1..2}; do
+        touch "${directory}/input${letter}${i}"
+    done
+    cp "test" "${directory}"
+done

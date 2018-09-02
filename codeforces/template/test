@@ -1,0 +1,50 @@
+#!/bin/bash
+letter="$1"
+
+letters=("A" "B" "C" "D" "E")
+if [[ -n $letter ]]; then
+    letters=("$letter")
+fi
+
+for letter in "${letters[@]}"; do
+    filename="problem${letter}"
+
+    # enable languages
+    cpp=true
+    if [[ -f "$filename.cpp" ]]; then
+        cmp -s "$filename.cpp" "../template/problemA.cpp" && cpp=false
+    else
+        cpp=false
+    fi
+
+    py=true
+    if [[ -f "$filename.py" ]]; then
+        cmp -s "$filename.py"  "../template/problemA.py"  && py=false
+    else
+        py=false
+    fi
+
+
+    #compile if enabled
+    if $cpp ; then
+        g++ -std=c++11 "$filename.cpp" -o "$filename" || { echo "failed to compile" ; exit 1; }
+    fi
+
+
+    #run tests
+    for input_file in "input${letter}"* ; do
+        if [[ -s "$input_file" ]]; then
+            if $cpp; then
+                echo "c++11 - $input_file"
+                ./"${filename}" < "$input_file"
+                echo
+            fi
+
+            if $py; then
+                echo "python 3 - $input_file"
+                /usr/bin/python3 "${filename}.py" "$input_file"
+                echo
+            fi
+        fi
+    done
+done
