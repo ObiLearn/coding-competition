@@ -20,55 +20,35 @@
 #include <algorithm>
 
 
-// TODO use std::minmax element instead (C++11) -- returns the last biggest element as done below
-std::pair<std::size_t, std::size_t> min_max(std::vector<int> const& in , std::size_t begin, std::size_t end) {
-    assert(end <= in.size());
+//When first and second in the pair are equal we do not buy or sell anything.
+//Otherwise we buy at first and sell second.
+template<typename Container, typename Iter=typename Container::const_iterator >
+std::pair<Iter,Iter> find_buy_sell( Container const& in, Iter begin, int best, Iter min, Iter max)  {
 
-    std::size_t min_pos = begin;
-    std::size_t max_pos = begin;
+    auto [new_min, new_max] = std::minmax_element(begin, in.end()); // Note: max is the last max element!
+                                                                    // This can result in larger ranges
 
-    for(std::size_t i = begin; i < end ; ++i) {
-        if(in[i] >= in[max_pos]) { // make sure we take the last in order to advance as far as possible
-            max_pos = i;
-        }
-
-        if(in[i] < in[min_pos]) { // take the first here. Otherwise we could find
-                                  // the same value past the max element.
-            min_pos = i;
-        }
+    // global solution for inspected part
+    if(new_min < new_max && (*new_max - *new_min) > best) {
+        return {new_min, new_max};
     }
 
-    return {min_pos, max_pos};
-};
-
-
-//When first and second in the pair are equal we do not buy or sell anything. Otherwise
-//we buy at the index of the first and sell at the index of the second value of the pair.
-std::pair<std::size_t, std::size_t> find_buy_sell(std::vector<int> const& in, std::size_t begin,
-                                                  int best, std::size_t min_pos, std::size_t max_pos) {
-
-    auto [new_min_pos, new_max_pos] = min_max(in, begin, in.size());
-
-    // global solution
-    if(new_min_pos < new_max_pos && in[new_max_pos] - in[new_min_pos] > best) {
-        return {new_min_pos, new_max_pos};
+    // we can not improve.
+    if(*new_min == *new_max) {
+        return {min, max};
     }
 
-    // we can not improve
-    if(in[new_min_pos] == in[new_max_pos]) {
-        return {min_pos, max_pos};
-    }
+    // Find minimum in the first part.
+    auto local_min = std::min_element(begin, new_max);
+    int local_best = *new_max - *local_min;
 
-    //find min index in the first part update and continue past the max
-    // TODO use std::min_element (C++17)
-    auto [local_min_pos, not_required_local_max_pos] = min_max(in, begin, new_max_pos);
-    int local_best = in[new_max_pos] - in[local_min_pos];
+
     if(local_best > best) {
-        // update with local_best and continue with the rest of the array
-        return find_buy_sell(in, new_max_pos+1, local_best, local_min_pos, new_max_pos);
+        // update with local_best and continue with the rest of the array.
+        return find_buy_sell(in, std::next(new_max), local_best, local_min, new_max);
     } else {
-        // keep best and continue with the 2nd part of the array
-        return find_buy_sell(in, new_max_pos+1, best, min_pos, max_pos);
+        // we can not improve - keep values as they are and continue with the rest of the array.
+        return find_buy_sell(in, std::next(new_max), best, min, max);
     }
 }
 
@@ -77,7 +57,7 @@ int main() {
     auto test = std::vector<std::vector<int>>{};
     auto expect = std::vector<std::pair<std::size_t, std::size_t>>{};
 
-    test.push_back(std::vector<int>{6, 3, 40, 23, 1 , 39}); // example at blog
+    test.push_back(std::vector<int>{6, 3, 40, 23, 1 , 39}); // example from blog
     expect.push_back({4,5});
 
     test.push_back(std::vector<int>{32}); // one element
@@ -113,27 +93,30 @@ int main() {
     test.push_back(std::vector<int>{3, 6, 6, 1, 3, 1, 5});
     expect.push_back({3,6});
 
+    test.push_back(std::vector<int>{6, 8, 6, 8, 6, 8, 2, 5});
+    expect.push_back({6,7});
+
     assert(test.size() == expect.size());
 
     for (std::size_t i = 0; i < test.size(); ++i) {
-        auto result = find_buy_sell(test[i], 0 /*begin*/, 0 /*best*/, 0 /*min_pos*/, 0 /*max_pos*/);
-        if( result == expect[i]) {
+        auto const& in = test[i];
+
+        auto result = find_buy_sell(in, in.begin() /*begin*/, 0 /*best*/, in.begin(), in.begin());
+        auto transformed_result = std::pair<std::size_t, std::size_t>{ std::distance(in.begin(), result.first), std::distance(in.begin(),result.second)};
+        if( transformed_result == expect[i]) {
             std::cout << "good\n";
         } else {
             std::cout << "\n\nbad";
 
             std::cout << "\n>>>>>>>>>>>>>>>>>>>>>>>\n";
             std::cout << "[";
-            for(auto i : test[i]) {
+            for(auto i : in) {
                 std::cout << i << " ";
             }
             std::cout << "]\n";
 
-            assert(result.first  < test[i].size());
-            assert(result.second < test[i].size());
-
-            std::cout << result.first  << "(" << test[i][result.first] << ") "
-                      << result.second << "(" << test[i][result.second] << ")" << std::endl << std::endl;
+            std::cout << transformed_result.first  << "(" << *result.first << ") "
+                      << transformed_result.second << "(" << *result.second << ")" << std::endl << std::endl;
 
             std::cout << "\n<<<<<<<<<<<<<<<<<<<<<<<\n";
         }
@@ -141,49 +124,3 @@ int main() {
 
     return 0;
 };
-
-
-// keep comments for revisit
-
-/*
-std::pair<std::size_t, std::size_t> find_buy_sell(std::vector<int> const& in, std::size_t begin,
-                                                  int best, std::size_t min_pos, std::size_t max_pos) {
-
-    std::cout << " start:"   << begin
-              << " best:"    << best
-              << " min_pos:" << min_pos
-              << " max_pos:" << max_pos << std::endl;
-
-    auto [new_min_pos, new_max_pos] = min_max(in, begin, in.size());
-
-    std::cout << "new min " << new_min_pos << " " << in[new_min_pos] << std::endl;
-    std::cout << "new max " << new_max_pos << " " << in[new_max_pos] << std::endl;
-
-    // global solution
-    if(new_min_pos < new_max_pos && in[new_max_pos] - in[new_min_pos] > best) {
-        std::cout << "global solution" << std::endl;
-        return {new_min_pos, new_max_pos};
-    }
-
-    // we can not improve
-    if(in[new_min_pos] == in[new_max_pos]) {
-        std::cout << "no improvement possible" << std::endl;
-        return {min_pos, max_pos};
-    }
-
-    std::cout << "find min index in the first part";
-    auto [local_min_pos, local_max_pos] = min_max(in, begin, new_max_pos);
-
-    int local_best = in[new_max_pos] - in[local_min_pos];
-    std::cout << "best " << best << std::endl;
-    std::cout << "local_best " << local_best << std::endl;
-
-    if(local_best > best) {
-        std::cout << "found local best in first part" << std::endl;
-        return find_buy_sell(in, new_max_pos+1, local_best, local_min_pos, new_max_pos);
-    } else {
-        std::cout << "could not improve in frist part" << std::endl;
-        return find_buy_sell(in, new_max_pos+1, best, min_pos, max_pos);
-    }
-}
-*/
